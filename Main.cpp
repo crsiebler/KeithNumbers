@@ -1,3 +1,5 @@
+// AUTHOR: Kristen Tourek
+
 //**************************************************************************************************************
 // FILE: Main.cpp
 //**************************************************************************************************************
@@ -135,7 +137,9 @@ static void Parallel
     if (amicableState->mStarted != 0) Error("Failed to start FindAmicable thread");
 
     // Start the thread to find the Keith numbers.
-    ???
+    /* @TODO */
+    ThreadState *keithState = StartThread(FindKeithsThread, gGlobals.mKeithLimit);
+    if (keithState->mStarted != 0) Error("Failed to start FindKeith thread");
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -175,4 +179,12 @@ static void ParseCmdLine
 // Call FindAmicable()
 // Call FindKeiths()
 //--------------------------------------------------------------------------------------------------------------
-???
+/* @TODO */
+static void Serial
+    (
+    )
+{
+    FindPrimes(gGlobals.mPrimeLimit);
+    FindAmicable(gGlobals.mAmicableLimit);
+    FindKeiths(gGlobals.mKeithLimit);
+}

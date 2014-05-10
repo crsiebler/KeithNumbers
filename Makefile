@@ -4,7 +4,7 @@
 #---------------------------------------------------------------------------------------------------------------
 # FILE:    Makefile
 # DESCR:   Make file for Lab Projecr 5 (pthreads).
-# AUTHORS: Kevin R. Burger (burgerk@asu.edu)
+# AUTHORS: Kevin R. Burger (burgerk@asu.edu), Kristen Tourek
 #---------------------------------------------------------------------------------------------------------------
 
 # Define a macro named CPPFLAGS which contains these flags for the GNU g++ compiler.

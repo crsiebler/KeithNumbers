@@ -1,11 +1,11 @@
 // AUTHOR: Kristen Tourek
 
 //**************************************************************************************************************
-// FILE: Amicable.cpp
+// FILE: Keith.cpp
 //**************************************************************************************************************
 #include <iostream>
 #include "Main.hpp"
-#include "Amicable.hpp"
+#include "Keith.hpp"
 #include "Thread.hpp"
 
 using std::cout;
@@ -14,13 +14,7 @@ using std::endl;
 //==============================================================================================================
 // Static Function Declarations
 //==============================================================================================================
-static bool AreAmicable
-    (
-    ulong const pNum1,
-    ulong const pNum2
-    );
-
-static ulong SumProperDivisors
+static bool IsKeith
     (
     ulong const pNum
     );
@@ -30,72 +24,53 @@ static ulong SumProperDivisors
 //==============================================================================================================
 
 //--------------------------------------------------------------------------------------------------------------
-// AreAmicable()
+// FindKeiths()
 //
-// Returns true if pNum1 and pNum2 are amicable numbers.
 //--------------------------------------------------------------------------------------------------------------
-static bool AreAmicable
-    (
-    ulong const pNum1,
-    ulong const pNum2
-    )
-{
-    return SumProperDivisors(pNum1) == pNum2 && SumProperDivisors(pNum2) == pNum1;
-}
-
-//--------------------------------------------------------------------------------------------------------------
-// FindAmicable()
-//
-// Finds all amicable numbers from 2 to pLimit. We do nothing with the numbers that we find.
-//--------------------------------------------------------------------------------------------------------------
-void FindAmicable
+void FindKeiths
     (
     ulong pLimit
     )
 {
-    if (GetVerbose()) cout << "FindAmicable() Begin" << endl;
-    for (ulong num1 = 2L; num1 <= pLimit; num1++) {
-        for (ulong num2 = num1 + 1; num2 <= pLimit; num2++) {
-            if (AreAmicable(num1, num2))
-                ;
-        }
+    if (GetVerbose()) cout << "FindKeiths() Begin" << endl;
+    for (ulong n = 10; n <= pLimit; n++) {
+        if (IsKeith(n))
+            ;
     }
-    if (GetVerbose()) cout << "FindAmicable() End" << endl;
+    if (GetVerbose()) cout << "FindKeiths() End" << endl;
 }
 
 //--------------------------------------------------------------------------------------------------------------
-// FindAmicableThread()
+// FindKeithsThread()
 //
-// The starting function for the "find amicable numbers" thread.
-//
-// NOTE: See comments in FindPrimesThread().
 //--------------------------------------------------------------------------------------------------------------
-void *FindAmicableThread
+void *FindKeithsThread
     (
     void *pState
     )
 {
-    if (GetVerbose()) cout << "FindAmicableThread() Begin" << endl;
+    if (GetVerbose()) cout << "FindKeithsThread() Begin" << endl;
     ThreadState *state = static_cast<ThreadState *>(pState);
-    FindAmicable(state->mLimit);
+    FindKeiths(state->mLimit);
     state->mExitCode = 0;
-    if (GetVerbose()) cout << "FindAmicableThread() End" << endl;
+    if (GetVerbose()) cout << "FindKeithsThread() End" << endl;
     pthread_exit(pState);
 }
 
 //--------------------------------------------------------------------------------------------------------------
-// SumProperDivisors()
+// IsKeith()
 //
-// Returns the sum of the proper divisors of pNum.
 //--------------------------------------------------------------------------------------------------------------
-static ulong SumProperDivisors
+static bool IsKeith
     (
     ulong const pNum
     )
 {
-    ulong sum = 1L;
-    for (ulong div = 2L; div < pNum; div++) {
-        if (pNum % div == 0L) sum += div;
+    ulong g[9],i,n,s,t=pNum;
+    for(n=s=0;t;t/=10)s+=g[n++]=t%10;
+    for(i=n;s<pNum;){
+        i=(i+n-1)%n;
+        t=g[i];g[i]=s;s=s*2-t;
     }
-    return sum;
+    return n>1&&s==pNum;
 }
